@@ -4,10 +4,41 @@ let indiceEdicao = -1; // Armazena o índice do aluno sendo editado
 
 class Aluno {
     constructor(nome, idade, curso, nota) {
-        this.nome = nome;
-        this.idade = idade;
-        this.curso = curso;
-        this.nota = nota;
+        this._nome = nome;
+        this._idade = idade;
+        this._curso = curso;
+        this._nota = nota;
+    }
+    //get e set
+    getNome() {
+        return this._nome;
+    }
+    setNome(nome) {
+        this._nome = nome;
+    }
+    getIdade() {
+        return this._idade;
+    }
+    setIdade(idade) {
+        this._idade = idade;
+    }
+    getCurso() {
+        return this._curso;
+    }
+    setCurso(curso) {
+        this._curso = curso;
+    }
+    getNota() {
+        return this._nota;
+    }
+    setNota(nota) {
+        this._nota = nota;
+    }
+    isAprovado() {
+        return this._nota >= 7;
+    }
+    toString() {
+        return `Nome: ${this._nome}, Idade: ${this._idade}, Curso: ${this._curso}, Nota: ${this._nota}`;
     }
 }
 
@@ -25,7 +56,7 @@ function cadastrarAluno() {
 
     // Verifica se o aluno já está cadastrado
     for (let i = 0; i < alunos.length; i++) {
-        if (alunos[i].nome === nome) {
+        if (alunos[i].getNome() === nome) {
             alert("Aluno já cadastrado!");
             return;
         }
@@ -46,19 +77,19 @@ function atualizarTabela() {
         const linha = document.createElement("tr");
 
         const colunaNome = document.createElement("td");
-        colunaNome.textContent = aluno.nome;
+        colunaNome.textContent = aluno.getNome();
         linha.appendChild(colunaNome);
 
         const colunaIdade = document.createElement("td");
-        colunaIdade.textContent = aluno.idade;
+        colunaIdade.textContent = aluno.getIdade();
         linha.appendChild(colunaIdade);
 
         const colunaCurso = document.createElement("td");
-        colunaCurso.textContent = aluno.curso;
+        colunaCurso.textContent = aluno.getCurso();
         linha.appendChild(colunaCurso);
 
         const colunaNota = document.createElement("td");
-        colunaNota.textContent = aluno.nota.toFixed(2);
+        colunaNota.textContent = aluno.getNota().toFixed(2);
         linha.appendChild(colunaNota);
 
         // Coluna Excluir
@@ -80,10 +111,10 @@ function atualizarTabela() {
         botaoEditar.textContent = "Editar";
         botaoEditar.onclick = (function(index) {
             return function() {
-                document.getElementById("nome").value = alunos[index].nome;
-                document.getElementById("idade").value = alunos[index].idade;
-                document.getElementById("curso").value = alunos[index].curso;
-                document.getElementById("nota").value = alunos[index].nota;
+                document.getElementById("nome").value = alunos[index].getNome();
+                document.getElementById("idade").value = alunos[index].getIdade();
+                document.getElementById("curso").value = alunos[index].getCurso();
+                document.getElementById("nota").value = alunos[index].getNota();
                 
                 indiceEdicao = index;
                 document.getElementById("btnCadastrar").value = "Atualizar";
@@ -104,10 +135,10 @@ function limparCampos() {
 document.getElementById("btnCadastrar").onclick = function () {
     if(indiceEdicao !== -1) {
         // Atualiza os dados do funcionário existente usando os setters
-        alunos[indiceEdicao].nome = document.getElementById("nome").value;
-        alunos[indiceEdicao].idade = parseInt(document.getElementById("idade").value);
-        alunos[indiceEdicao].curso = document.getElementById("curso").value;
-        alunos[indiceEdicao].nota = parseFloat(document.getElementById("nota").value);
+        alunos[indiceEdicao].setNome(document.getElementById("nome").value);
+        alunos[indiceEdicao].setIdade(parseInt(document.getElementById("idade").value));
+        alunos[indiceEdicao].setCurso(document.getElementById("curso").value);
+        alunos[indiceEdicao].setNota(parseFloat(document.getElementById("nota").value));
         
         indiceEdicao = -1; // Reseta o índice de edição
         document.getElementById("btnCadastrar").value = "Cadastrar"; // Restaura o texto do botão
