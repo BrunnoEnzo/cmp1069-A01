@@ -37,11 +37,11 @@ class Aluno {
     }
     
     isAprovado() {
-        return this._nota >= 7;
+        return this.getNota() >= 7;
     }
     
     toString() {
-        return `Nome: ${this._nome}, Idade: ${this._idade}, Curso: ${this._curso}, Nota: ${this._nota}`;
+        return `Nome: ${this.getNome()}, Idade: ${this.getIdade()}, Curso: ${this.getCurso()}, Nota: ${this.getNota()}`;
     }
 }
 
@@ -55,6 +55,11 @@ const cadastrarAluno = () => {
     // Validação básica
     if (!nome || isNaN(idade) || !curso || isNaN(nota)) {
         alert("Por favor, preencha todos os campos corretamente.");
+        return;
+    }
+    // Validação de idade e nota
+    if (idade <= 0 || nota < 0 || nota > 10) {
+        alert("Idade deve ser maior que 0 e nota deve estar entre 0 e 10.");
         return;
     }
 
@@ -149,6 +154,86 @@ const limparCampos = () => {
     document.getElementById("idade").value = "";
     document.getElementById("curso").value = "";
     document.getElementById("nota").value = "";
+}
+// Função principal para exibir resultados
+const mostrarResultado = function(titulo, conteudo) {
+    document.getElementById('resultado').innerHTML = `
+        <h4>${titulo}</h4>
+        <div>${conteudo}</div>
+    `;
+}
+
+// Alunos aprovados (FILTER + MAP)
+const mostrarAprovados = function() {
+    const aprovados = alunos
+        .filter(aluno => aluno.getNota() >= 7) // FILTER: seleciona os aprovados
+        .map(aluno => `${aluno.getNome()} (${aluno.getNota().toFixed(1)})`); // MAP: formata os dados
+
+    mostrarResultado(
+        "Alunos Aprovados",
+        aprovados.length > 0 ? aprovados.join("<br>") : "Nenhum aluno aprovado"
+    );
+}
+
+// Média das notas (REDUCE)
+const calcularMediaNotas = function() {
+    if (alunos.length === 0) {
+        mostrarResultado("Média das Notas", "Nenhum aluno cadastrado");
+        return;
+    }
+
+    const media = alunos
+        .reduce((total, aluno) => total + aluno.getNota(), 0) // REDUCE: soma todas as notas
+        / alunos.length;
+
+    mostrarResultado("Média das Notas", media.toFixed(2));
+}
+
+// Média das idades (REDUCE)
+const calcularMediaIdades = function() {
+    if (alunos.length === 0) {
+        mostrarResultado("Média das Idades", "Nenhum aluno cadastrado");
+        return;
+    }
+
+    const media = alunos
+        .reduce((total, aluno) => total + aluno.getIdade(), 0) // REDUCE: soma todas as idades
+        / alunos.length;
+
+    mostrarResultado("Média das Idades", media.toFixed(1));
+}
+
+// Ordenar alunos (SORT + MAP)
+const ordenarAlunos = function() {
+    if (alunos.length === 0) {
+        mostrarResultado("Alunos Ordenados", "Nenhum aluno cadastrado");
+        return;
+    }
+
+    const ordenados = [...alunos] // Cria uma cópia
+        .sort((a, b) => a.getNome().localeCompare(b.nome)) // SORT: ordena alfabeticamente
+        .map(aluno => aluno.getNome()); // MAP: extrai apenas os nomes
+
+    mostrarResultado("Alunos Ordenados por Nome", ordenados.join("<br>"));
+}
+
+// 5. Contagem por curso (FOREACH)
+const contarPorCurso = function() {
+    if (alunos.length === 0) {
+        mostrarResultado("Alunos por Curso", "Nenhum aluno cadastrado");
+        return;
+    }
+
+    const cursos = {};
+    alunos.forEach(aluno => { // FOREACH: itera sobre cada aluno
+        cursos[aluno.getCurso()] = (cursos[aluno.getCurso()] || 0) + 1;
+    });
+
+    const resultado = Object.entries(cursos)
+        .map(([curso, qtd]) => `${curso}: ${qtd} aluno(s)`)
+        .join("<br>");
+
+    mostrarResultado("Alunos por Curso", resultado);
 }
 
 // Event Listeners

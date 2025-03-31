@@ -52,6 +52,16 @@
                 </tr>
             </tbody>
         </table>
+        <div class="relatorios">
+            <h3>Relatórios</h3>
+            <button onclick="mostrarAprovados()">Aprovados (nota ≥ 7)</button>
+            <button onclick="calcularMediaNotas()">Média das Notas</button>
+            <button onclick="calcularMediaIdades()">Média das Idades</button>
+            <button onclick="ordenarAlunos()">Ordenar por Nome</button>
+            <button onclick="contarPorCurso()">Alunos por Curso</button>
+            
+            <div id="resultado"></div>
+        </div>
     </form>
 
     <script src="./script.js"></script>
