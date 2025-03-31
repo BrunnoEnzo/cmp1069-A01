@@ -53,11 +53,11 @@ const funcionarios = [];
 let indiceEdicao = -1; // Armazena o índice do funcionário sendo editado
 
 // Função para adicionar funcionário
-function cadastrarFuncionario() {
+const cadastrarFuncionario = () => {
     const nome = document.getElementById("nome").value;
     const cargo = document.getElementById("cargo").value;
     
-    // Verifica se funcionário já existe (usando getters)
+    // Verifica se funcionário já existe
     for (let i = 0; i < funcionarios.length; i++) {
         if (funcionarios[i].getNome() === nome && funcionarios[i].getCargo() === cargo) {
             alert("Funcionário já cadastrado!");
@@ -65,23 +65,27 @@ function cadastrarFuncionario() {
         }
     }
 
-    // Restante do código permanece igual...
     const idade = parseInt(document.getElementById("idade").value);
     const salario = parseFloat(document.getElementById("salario").value);
     const funcionario = new Funcionario(nome, idade, cargo, salario);
     funcionarios.push(funcionario);
+
+    console.log(funcionario.toString());
+}
+
+const atualizarFuncionario = () => {
+    funcionarios[indiceEdicao].setNome(document.getElementById("nome").value);
+    funcionarios[indiceEdicao].setIdade(parseInt(document.getElementById("idade").value));
+    funcionarios[indiceEdicao].setCargo(document.getElementById("cargo").value);
+    funcionarios[indiceEdicao].setSalario(parseFloat(document.getElementById("salario").value));
+    
+    indiceEdicao = -1;
+    document.getElementById("btnSalvar").value = "Salvar";
 }
 
 document.getElementById("btnSalvar").onclick = function() {
     if(indiceEdicao !== -1) {
-        // Atualiza os dados do funcionário existente usando os setters
-        funcionarios[indiceEdicao].setNome(document.getElementById("nome").value);
-        funcionarios[indiceEdicao].setIdade(parseInt(document.getElementById("idade").value));
-        funcionarios[indiceEdicao].setCargo(document.getElementById("cargo").value);
-        funcionarios[indiceEdicao].setSalario(parseFloat(document.getElementById("salario").value));
-        
-        indiceEdicao = -1; // Reseta o índice de edição
-        document.getElementById("btnSalvar").value = "Salvar"; // Restaura o texto do botão
+        atualizarFuncionario();
     }
     else {
         cadastrarFuncionario();
@@ -90,14 +94,27 @@ document.getElementById("btnSalvar").onclick = function() {
     limparCampos();
 }
 
-function limparCampos() {
+const limparCampos = () => {
     document.getElementById("nome").value = "";
     document.getElementById("idade").value = "";
     document.getElementById("cargo").value = "";
     document.getElementById("salario").value = "";
 }
+const removerFuncionario = (index) => {
+    funcionarios.splice(index, 1);
+    atualizarTabela();
+};
+const retornarFuncionario = (index) => {
+    document.getElementById("nome").value = funcionarios[index].getNome();
+    document.getElementById("idade").value = funcionarios[index].getIdade();
+    document.getElementById("cargo").value = funcionarios[index].getCargo();
+    document.getElementById("salario").value = funcionarios[index].getSalario();
+    
+    indiceEdicao = index;
+    document.getElementById("btnSalvar").value = "Atualizar";
+};
 
-function atualizarTabela() {
+const atualizarTabela = () => {
     const tabela = document.getElementById("table");
     tabela.innerHTML = "";
 
@@ -105,13 +122,13 @@ function atualizarTabela() {
         const funcionario = funcionarios[i];
         const linha = document.createElement("tr");
 
-        // Corrigido: usando os getters corretamente
+        // Usando os getters corretamente (como funções)
         const colunaNome = document.createElement("td");
         colunaNome.textContent = funcionario.getNome();
         linha.appendChild(colunaNome);
 
         const colunaIdade = document.createElement("td");
-        colunaIdade.textContent = funcionario.getIdade();
+        colunaIdade.textContent = funcionario.getIdade(); 
         linha.appendChild(colunaIdade);
 
         const colunaCargo = document.createElement("td");
@@ -119,19 +136,14 @@ function atualizarTabela() {
         linha.appendChild(colunaCargo);
 
         const colunaSalario = document.createElement("td");
-        colunaSalario.textContent = funcionario.getSalario().toFixed(2);
+        colunaSalario.textContent = funcionario.getSalario().toFixed(2); 
         linha.appendChild(colunaSalario);
 
         // Coluna Excluir
         const colunaExcluir = document.createElement("td");
         const botaoExcluir = document.createElement("button");
         botaoExcluir.textContent = "Excluir";
-        botaoExcluir.onclick = (function(index) {
-            return function() {
-                funcionarios.splice(index, 1);
-                atualizarTabela();
-            };
-        })(i);
+        botaoExcluir.onclick = () => removerFuncionario(i);
         colunaExcluir.appendChild(botaoExcluir);
         linha.appendChild(colunaExcluir);
 
@@ -139,17 +151,7 @@ function atualizarTabela() {
         const colunaEditar = document.createElement("td"); 
         const botaoEditar = document.createElement("button");
         botaoEditar.textContent = "Editar";
-        botaoEditar.onclick = (function(index) {
-            return function() {
-                document.getElementById("nome").value = funcionarios[index].getNome();
-                document.getElementById("idade").value = funcionarios[index].getIdade();
-                document.getElementById("cargo").value = funcionarios[index].getCargo();
-                document.getElementById("salario").value = funcionarios[index].getSalario();
-                
-                indiceEdicao = index;
-                document.getElementById("btnSalvar").value = "Atualizar";
-            };
-        })(i);
+        botaoEditar.onclick = () => retornarFuncionario(i);
         colunaEditar.appendChild(botaoEditar);
         linha.appendChild(colunaEditar);
 
