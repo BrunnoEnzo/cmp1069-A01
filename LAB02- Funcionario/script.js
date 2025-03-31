@@ -50,46 +50,62 @@ class Funcionario {
 
 // Array para armazenar os funcionários
 const funcionarios = [];
+let indiceEdicao = -1; // Armazena o índice do funcionário sendo editado
 
 // Função para adicionar funcionário
 function cadastrarFuncionario() {
-
+    const nome = document.getElementById("nome").value;
+    const cargo = document.getElementById("cargo").value;
+    
+    // Verifica se funcionário já existe (usando getters)
     for (let i = 0; i < funcionarios.length; i++) {
-        if (funcionarios[i].getNome() === document.getElementById("nome").value) {
+        if (funcionarios[i].getNome() === nome && funcionarios[i].getCargo() === cargo) {
             alert("Funcionário já cadastrado!");
             return;
         }
     }
 
-    const nome = document.getElementById("nome").value;
+    // Restante do código permanece igual...
     const idade = parseInt(document.getElementById("idade").value);
-    const cargo = document.getElementById("cargo").value;
     const salario = parseFloat(document.getElementById("salario").value);
     const funcionario = new Funcionario(nome, idade, cargo, salario);
     funcionarios.push(funcionario);
-    limparCampos();
 }
 
 document.getElementById("btnSalvar").onclick = function() {
-    cadastrarFuncionario();
+    if(indiceEdicao !== -1) {
+        // Atualiza os dados do funcionário existente usando os setters
+        funcionarios[indiceEdicao].setNome(document.getElementById("nome").value);
+        funcionarios[indiceEdicao].setIdade(parseInt(document.getElementById("idade").value));
+        funcionarios[indiceEdicao].setCargo(document.getElementById("cargo").value);
+        funcionarios[indiceEdicao].setSalario(parseFloat(document.getElementById("salario").value));
+        
+        indiceEdicao = -1; // Reseta o índice de edição
+        document.getElementById("btnSalvar").value = "Salvar"; // Restaura o texto do botão
+    }
+    else {
+        cadastrarFuncionario();
+    }
     atualizarTabela();
+    limparCampos();
 }
-const limparCampos = () => {
+
+function limparCampos() {
     document.getElementById("nome").value = "";
     document.getElementById("idade").value = "";
     document.getElementById("cargo").value = "";
     document.getElementById("salario").value = "";
 }
 
-
 function atualizarTabela() {
     const tabela = document.getElementById("table");
-    tabela.innerHTML = ""; // Limpa a tabela antes de atualizar
+    tabela.innerHTML = "";
 
     for (let i = 0; i < funcionarios.length; i++) {
         const funcionario = funcionarios[i];
         const linha = document.createElement("tr");
 
+        // Corrigido: usando os getters corretamente
         const colunaNome = document.createElement("td");
         colunaNome.textContent = funcionario.getNome();
         linha.appendChild(colunaNome);
@@ -105,6 +121,37 @@ function atualizarTabela() {
         const colunaSalario = document.createElement("td");
         colunaSalario.textContent = funcionario.getSalario().toFixed(2);
         linha.appendChild(colunaSalario);
+
+        // Coluna Excluir
+        const colunaExcluir = document.createElement("td");
+        const botaoExcluir = document.createElement("button");
+        botaoExcluir.textContent = "Excluir";
+        botaoExcluir.onclick = (function(index) {
+            return function() {
+                funcionarios.splice(index, 1);
+                atualizarTabela();
+            };
+        })(i);
+        colunaExcluir.appendChild(botaoExcluir);
+        linha.appendChild(colunaExcluir);
+
+        // Coluna Editar
+        const colunaEditar = document.createElement("td"); 
+        const botaoEditar = document.createElement("button");
+        botaoEditar.textContent = "Editar";
+        botaoEditar.onclick = (function(index) {
+            return function() {
+                document.getElementById("nome").value = funcionarios[index].getNome();
+                document.getElementById("idade").value = funcionarios[index].getIdade();
+                document.getElementById("cargo").value = funcionarios[index].getCargo();
+                document.getElementById("salario").value = funcionarios[index].getSalario();
+                
+                indiceEdicao = index;
+                document.getElementById("btnSalvar").value = "Atualizar";
+            };
+        })(i);
+        colunaEditar.appendChild(botaoEditar);
+        linha.appendChild(colunaEditar);
 
         tabela.appendChild(linha);
     }
