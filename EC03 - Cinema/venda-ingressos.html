@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./css/bootstrap.min.css">
+        <link rel="stylesheet" href="./css/style.css">
+
+        <title>Cinema</title>
+    </head>
+    <body class="bg-dark text-light">
+        <div id="navbar"></div>
+        <div class="container mt-5">
+            <h1 class="custom-text-center" id="titulo-pagina">Venda de Ingressos</h1>
+            <button type="button" class="btn btn-primary custom-btn" data-bs-toggle="modal" data-bs-target="#modalAdicionarVenda" id="btn-adicionar-venda">
+                Adicionar Venda
+            </button>
+            <div class="modal fade" id="modalAdicionarVenda" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalAdicionarVendaLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="modalAdicionarVendaLabel">Salvar Filme</h1>
+                            <button type="button" class="btn-close custom-btn" data-bs-dismiss="modal" aria-label="Close" id="btn-fechar-modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="sessao" class="form-label">Sessão</label>
+                                <select class="form-select" id="select-sessao" aria-label="Selecione a sessão">
+                                    <option selected>Selecione a sessão</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="nome" class="form-label">Nome do Cliente</label>
+                                <input type="text" class="form-control" id="nomeCliente" placeholder="Digite o nome do cliente" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cpf" class="form-label">CPF do Cliente</label>
+                                <input type="atetime-local" class="form-control" id="cpfCliente" placeholder="Digite o CPF do cliente" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="assento" class="form-label">Assento</label>
+                                <input type="atetime-local" class="form-control" id="assento" placeholder="Digite o assento" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tipoPagamento" class="form-label">Tipo de Pagamento</label>
+                                <select class="form-select" id="select-tipo-pagamento" aria-label="Default select example">
+                                    <option selected>Selecione o tipo de pagamento</option>
+                                    <option value="1">Cartão</option>
+                                    <option value="2">Pix</option>
+                                    <option value="3">Dinheiro</option>
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary custom-btn" data-bs-dismiss="modal">Fechar</button>
+                                <button type="button" class="btn btn-primary custom-btn" id="btn-salvar">Salvar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br></br>
+            <div class="row">
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Digite o nome do cliente" aria-label="clientePesquisa" id="inputPesquisaTitulo">
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-light customMenor-btn" id="btn-buscar">Buscar</button>
+                </div>
+            </div>
+            <br></br>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr class="table-dark">
+                            <th scope="col">ID</th>
+                            <th scope="col">Sessão</th>
+                            <th scope="col">Nome do Cliente</th>
+                            <th scope="col">CPF</th>
+                            <th scope="col">Assento</th>
+                            <th scope="col">Tipo de Pagamento</th>
+                            <th scope="col">Editar / Excluir</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="table-dark">
+                            <td class="align-top"></td>
+                            <td class="align-top"></td>
+                            <td class="align-top"></td>
+                            <td class="align-top"></td>
+                            <td class="align-top"></td>
+                            <td class="align-top"></td>
+                            <td class="align-top"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Modal: Excluir Filme -->
+        <div class="modal fade" id="modalExcluirVenda" tabindex="-1" aria-labelledby="modalExcluirVendaLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h4 class="modal-title" id="modalExcluirVendaLabel">Confirmação de Exclusão</h4>
+                        <button type="button" class="btn-close btn-close-white custom-btn" data-bs-dismiss="modal"
+                            aria-label="Fechar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Tem certeza de que deseja excluir o ingresso <strong id="filmeExcluirVenda"></strong>?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary custom-btn" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger custom-btn" id="btnConfirmarExcluirVenda">Excluir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="./js/bootstrap.bundle.min.js"></script>
+        <script src="./controller/script.js"></script>
+        <script type="module" src="./controller/vendaController.js"></script>
+    </body>
+</html>

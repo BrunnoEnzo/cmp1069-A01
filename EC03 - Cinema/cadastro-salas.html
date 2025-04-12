@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./css/bootstrap.min.css">
+        <link rel="stylesheet" href="./css/style.css">
+
+        <title>Cinema</title>
+    </head>
+    <body class="bg-dark text-light">
+        <div id="navbar"></div>
+        <div class="container mt-5">
+            <h1 class="custom-text-center">Cadastro de Salas</h1>
+            <button type="button" class="btn btn-primary custom-btn" data-bs-toggle="modal" data-bs-target="#modalAdicionarSala">
+                Adicionar Sala
+            </button>
+            <div class="modal fade" id="modalAdicionarSala" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalAdicionarSalaLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="modalAdicionarSalaLabel">Salvar Sala</h1>
+                            <button type="button" class="btn-close custom-btn" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="nomeSala" class="form-label">Sala</label>
+                                <input type="text" class="form-control" id="nomeSala" placeholder="Digite o nome da sala" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="capacidadeSala" class="form-label">Capacidade</label>
+                                <input type="text" class="form-control" id="capacidadeSala" placeholder="Digite a capacidade da sala" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tipoSala" class="form-label">Tipo</label>
+                                <select class="form-select" id="select-tipo" aria-label="Selecione o tipo">
+                                    <option selected>Selecione o tipo</option>
+                                    <option value="1">2D</option>
+                                    <option value="2">3D</option>
+                                    <option value="3">IMAX</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary custom-btn" data-bs-dismiss="modal">Fechar</button>
+                            <button type="button" class="btn btn-primary custom-btn">Salvar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br></br>
+            <div class="row">
+                <div class="col">
+                    <input type="text" class="form-control" id="inputPesquisaTitulo" placeholder="Digite o nome da sala" aria-label="pesquisaSala">
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-light customMenor-btn" id="botaoBuscarSala">Buscar</button>
+                </div>
+            </div>
+            <br></br>
+            <div class="table-responsive">
+                <table class="table table-hover table align-middle">
+                    <thead>
+                        <tr class="table-dark">
+                            <th scope="col">ID</th>
+                            <th scope="col">Sala</th>
+                            <th scope="col">Capacidade</th>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Editar / Excluir</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaSalas"></tbody>
+                        <tr class="table-dark">
+                            <td class="align-top"></td>
+                            <td class="align-top"></td>
+                            <td class="align-top"></td>
+                            <td class="align-top"></td>
+                            <td class="align-top"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Modal: Excluir Sala -->
+        <div class="modal fade" id="modalExcluirSala" tabindex="-1" aria-labelledby="modalExcluirSalaLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h4 class="modal-title" id="modalExcluirSalaLabel">Confirmação de Exclusão</h4>
+                        <button type="button" class="btn-close btn-close-white custom-btn" data-bs-dismiss="modal"
+                            aria-label="Fechar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Tem certeza de que deseja excluir a sala <strong id="salaExcluirSala"></strong>?</p>
+                        <p>Se remover a sala, sessões e ingressos serão apagados!</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary custom-btn" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger custom-btn" id="btnConfirmarExcluirSala">Excluir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="./js/bootstrap.bundle.min.js"></script>
+        <script src="./controller/script.js"></script>
+        <script type="module" src="./controller/salaController.js"></script>
+    </body>
+</html>

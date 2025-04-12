@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./css/bootstrap.min.css">
+        <link rel="stylesheet" href="./css/style.css">
+
+        <title>Cinema</title>
+    </head>
+    <body class="bg-dark text-light">
+        <div id="navbar"></div>
+
+        <div class="container mt-5">
+            <h1 class="custom-text-center">Bem-vindo ao Sistema de Gerenciamento de Cinema</h1>
+            <h5 class="text-center">Este sistema permite gerenciar filmes, salas, sessões e vendas de ingressos de forma eficiente.</h5>
+            <h5 class="text-center">Utilize o menu acima para navegar entre as diferentes funcionalidades do sistema.</h5>
+
+        </div>
+        <!-- Conteúdo Principal -->
+    '    <div class="container mt-4">
+            <div class="row">
+                <!-- Card Resumo de Filmes -->
+                <div class="col-md-4 mb-4">
+                    <div class="card bg-secondary text-white h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Filmes Cadastrados</h5>
+                            <p class="display-4" id="total-filmes">0</p>
+                            <a href="cadastro-filmes.html" class="btn btn-light custom-btn">Gerenciar Filmes</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card Próximas Sessões -->
+                <div class="col-md-4 mb-4">
+                    <div class="card bg-primary text-white h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Próximas Sessões</h5>
+                            <ul class="list-unstyled" id="proximas-sessoes">
+                                <li>Carregando...</li>
+                            </ul>
+                            <a href="cadastro-sessoes.html" class="btn btn-light custom-btn">Ver Todas</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card Vendas Recentes -->
+                <div class="col-md-4 mb-4">
+                    <div class="card bg-success text-white h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Vendas Hoje</h5>
+                            <p class="display-4" id="total-vendas">0</p>
+                            <a href="venda-ingressos.html" class="btn btn-light custom-btn">Nova Venda</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="./js/bootstrap.bundle.min.js"></script>
+        <script src="./controller/script.js"></script>
+        <script type="module" src="./controller/homeController.js"></script>
+    </body>
+</html>
