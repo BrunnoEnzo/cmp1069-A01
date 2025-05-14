@@ -1,58 +1,54 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-function Modal({ id, titulo = 'Título', children, onClose, onSave }) {
-  useEffect(() => {
-    // Inicializa o modal quando o componente monta
-    const modalElement = document.getElementById(id);
-    if (!modalElement) return;
-
-    // Adiciona listener para o evento de fechamento
-    const handleHidden = () => onClose && onClose();
-    modalElement.addEventListener('hidden.bs.modal', handleHidden);
-
-    // Limpeza quando o componente desmontar
-    return () => {
-      modalElement.removeEventListener('hidden.bs.modal', handleHidden);
-    };
-  }, [id, onClose]);
+function Modal({ 
+  show, 
+  onClose, 
+  titulo, 
+  children, 
+  footerContent,
+  size = ''
+}) {
+  const modalStyle = {
+    display: show ? 'block' : 'none',
+    backgroundColor: 'rgba(0,0,0,0.5)'
+  };
 
   return (
-    <div className="modal fade" id={id} tabIndex="-1" aria-hidden="true">
-      <div className="modal-dialog">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title">{titulo}</h5>
-            <button 
-              type="button" 
-              className="btn-close" 
-              data-bs-dismiss="modal" 
-              aria-label="Fechar"
-            />
-          </div>
-          
-          <div className="modal-body">
-            {children}
-          </div>
-          
-          <div className="modal-footer">
-            <button 
-              type="button" 
-              className="btn btn-secondary" 
-              data-bs-dismiss="modal"
-            >
-              Fechar
-            </button>
-            <button 
-              type="button" 
-              className="btn btn-primary" 
-              onClick={onSave}
-            >
-              Salvar
-            </button>
+    <>
+      {show && (
+        <div 
+          className="modal show fade" 
+          style={modalStyle}
+          tabIndex="-1"
+          role="dialog"
+          aria-hidden="true"
+        >
+          <div className={`modal-dialog ${size}`} role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">{titulo}</h5>
+                <button 
+                  type="button" 
+                  className="btn-close" 
+                  onClick={onClose}
+                  aria-label="Fechar"
+                />
+              </div>
+              
+              <div className="modal-body">
+                {children}
+              </div>
+              
+              {footerContent && (
+                <div className="modal-footer">
+                  {footerContent}
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
 

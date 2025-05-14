@@ -57,7 +57,7 @@ function Home() {
   };
 
   return (
-    <div className="bg-dark text-light" style={{ minHeight: "100vh" ,width: '100vw', boxSizing: "border-box"}}>
+    <div className="bg-dark text-light" style={{ minHeight: "100vh", width: '100vw', boxSizing: "border-box" }}>
       <Navbar />
 
       <div className="container-fluid py-4">
