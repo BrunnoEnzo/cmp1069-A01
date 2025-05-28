@@ -7,9 +7,8 @@ import { useNavigate } from "react-router-dom";
 function Navbar() {
   return (
     <>
-    
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark" style={{width: '100vw'}}>
-        <div className="container-fluid">
+        <div className="container-fluid ">
           <Link className="navbar-brand" to="/home">
             <strong>🎬 Cinema</strong>
           </Link>

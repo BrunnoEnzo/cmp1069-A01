@@ -78,6 +78,7 @@ function IngressoPage() {
             ...prev,
             [name]: value // Já recebe o valor sem formatação do InputCpf
         }));
+
     };
 
     const handleSubmit = (e) => {
@@ -121,8 +122,8 @@ function IngressoPage() {
             return false;
         }
 
-        if (!formData.cpf.trim() || formData.cpf.length !== 11 ) {
-            if (formData.cpf.length === 11) {
+        if (!formData.cpf.trim() || formData.cpf.length !== 14 ) {
+            if (formData.cpf.length === 14) {
                 return false;
             }
             alert('CPF deve conter 11 dígitos');
@@ -310,14 +311,15 @@ function IngressoPage() {
                             onChange={handleInputChange}
                             placeholder="Digite o nome do cliente"
                         />
-                        <InputText
+                        <InputCpf
                             name="cpf"
                             label="CPF do Cliente"
                             required
                             value={formData.cpf}
                             onChange={handleInputChange}
-                            placeholder="Digite o CPF do cliente"
+                            placeholder="Digite o CPF"
                         />
+
                         <InputText
                             name="assento"
                             label="Assento"

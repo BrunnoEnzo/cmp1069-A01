@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./css/bootstrap.min.css">
+        <link rel="stylesheet" href="./css/style.css">
+
+        <title>Cinema</title>
+    </head>
+    <body class="bg-dark text-light">
+        <div id="navbar"></div>
+        <div class="container mt-5">
+            <h1 class="custom-text-center" id="titulo-pagina">Cadastro de Sessões</h1>
+            <button type="button" class="btn btn-primary custom-btn" data-bs-toggle="modal" data-bs-target="#modalAdicionarSessao" id="btn-adicionar-sessao">
+                Adicionar Sessão
+            </button>
+            <div class="modal fade" id="modalAdicionarSessao" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalAdicionarSessaoLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="modalAdicionarSessaoLabel">Salvar Filme</h1>
+                            <button type="button" class="btn-close custom-btn" data-bs-dismiss="modal" aria-label="Close" id="btn-fechar-modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="input-titulo-filme" class="form-label">Filme</label>
+                                <select class="form-select" id="select-filme" aria-label="Selecione o filme">
+                                    <option selected>Selecione o filme</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="input-sala-filme" class="form-label">Sala</label>
+                                <select class="form-select" id="select-sala" aria-label="Selecione a sala">
+                                    <option selected>Selecione a sala</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="input-data-hora" class="form-label">Data e Hora</label>
+                                <input type="datetime-local" class="form-control" id="input-data-hora" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="input-preco-filme" class="form-label">Preço</label>
+                                <input type="number" class="form-control" id="input-preco-filme" placeholder="Digite o preço do filme" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="select-idioma" class="form-label">Idioma</label>
+                                <select class="form-select" id="select-idioma" aria-label="Selecione o idioma">
+                                    <option selected>Selecione o idioma</option>
+                                    <option value="1">Dublado</option>
+                                    <option value="2">Legendado</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="select-formato" class="form-label">Formato</label>
+                                <select class="form-select" id="select-formato" aria-label="Selecione o formato">
+                                    <option selected>Selecione o formato</option>
+                                    <option value="3">2D</option>
+                                    <option value="4">3D</option>
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary custom-btn" data-bs-dismiss="modal" id="btn-fechar">Fechar</button>
+                                <button type="button" class="btn btn-primary custom-btn" id="btn-salvar">Salvar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br></br>
+            <div class="row" id="row-busca">
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Digite o título da sessão" aria-label="tituloPesquisa" id="inputPesquisaTitulo">
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-light customMenor-btn" id="btn-buscar">Buscar</button>
+                </div>
+            </div> 
+            <br></br>
+            <div class="table-responsive">
+                <table class="table table-hover" id="tabela-sessoes">
+                    <thead>
+                        <tr class="table-dark table align-middle">
+                            <th scope="col">ID</th>
+                            <th scope="col">Filme</th>
+                            <th scope="col">Sala</th>
+                            <th scope="col">Data</th>
+                            <th scope="col">Hora</th>
+                            <th scope="col">Preço</th>
+                            <th scope="col">Idioma</th>
+                            <th scope="col">Formato</th>
+                            <th scope="col">Editar / Excluir</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-corpo"></tbody>
+                        <tr class="table-dark">
+                            <td class="align-top"></td>
+                            <td class="align-top"></td>
+                            <td class="align-top"></td>
+                            <td class="align-top"></td>
+                            <td class="align-top"></td>
+                            <td class="align-top"></td>
+                            <td class="align-top"></td>
+                            <td class="align-top"></td>
+                            <td class="align-top"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Modal: Excluir Filme -->
+        <div class="modal fade" id="modalExcluirSessao" tabindex="-1" aria-labelledby="modalExcluirSessaoLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h4 class="modal-title" id="modalExcluirSessaoLabel">Confirmação de Exclusão</h4>
+                        <button type="button" class="btn-close btn-close-white custom-btn" data-bs-dismiss="modal"
+                            aria-label="Fechar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Tem certeza de que deseja excluir a sessão <strong id="filmeExcluirSessao"></strong>?</p>
+                        <p>Se remover a sessão, ingressos serão apagados!</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary custom-btn" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger custom-btn" id="btnConfirmarExcluirSessao">Excluir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="./js/bootstrap.bundle.min.js"></script>
+        <script src="./controller/script.js"></script>
+        <script type="module" src="./controller/sessaoConstroller.js"></script>
+    </body>
+</html>

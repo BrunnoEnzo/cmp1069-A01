@@ -1,4 +1,5 @@
 import React from 'react';
+import "./Modal.css";
 
 function Modal({ 
   show, 
@@ -23,7 +24,7 @@ function Modal({
           role="dialog"
           aria-hidden="true"
         >
-          <div className={`modal-dialog ${size}`} role="document">
+          <div className="modal-dialog modal-dialog-scrollable" role="document">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">{titulo}</h5>

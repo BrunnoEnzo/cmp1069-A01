@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./css/bootstrap.min.css">
+        <link rel="stylesheet" href="./css/style.css">
+        
+        <title>Sessões Disponíveis</title>
+    </head>
+    <body class="bg-dark text-light">
+        <div id="navbar"></div>
+        <div class="container mt-5">
+            <h1 class="custom-text-center">Listagem de Sessões Disponíveis</h1>
+            <br></br>
+            <div class="row">
+                <div class="col">
+                    <input type="text" class="form-control" id="inputPesquisaTitulo" 
+                        placeholder="Buscar por filme ou sala">
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-light customMenor-btn" id="buscar-btn">Buscar</button>
+                </div>
+            </div>
+            <br></br>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="table-dark align-middle">
+                            <th>ID</th>
+                            <th>Filme</th>
+                            <th>Sala</th>
+                            <th>Data</th>
+                            <th>Horário</th>
+                            <th>Comprar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sessao-lista">
+                        <td class="align-top"></td>
+                        <td class="align-top"></td>
+                        <td class="align-top"></td>
+                        <td class="align-top"></td>
+                        <td class="align-top"></td>
+                        <td class="align-top"></td>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <script type="module" src="./controller/acessoSessaoController.js"></script>
+        <script src="./controller/script.js"></script>
+        <script src="./js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>

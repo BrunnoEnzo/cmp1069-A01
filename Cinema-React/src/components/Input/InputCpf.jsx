@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 function InputCpf({
-  id,
-  name = id,
-  label,
-  placeholder = "000.000.000-00",
+  id = "cpf",
+  name = "cpf",
+  label = "CPF",
+  placeholder = "Digite o CPF",
   required = false,
   value = "",
   onChange = () => {},
@@ -12,40 +12,45 @@ function InputCpf({
   disabled = false,
   ...props
 }) {
-  const formatCpf = (value) => {
-    return value
-      .replace(/\D/g, '') // Remove tudo que não é dígito
-      .replace(/(\d{3})(\d)/, '$1.$2')
-      .replace(/(\d{3})(\d)/, '$1.$2')
-      .replace(/(\d{3})(\d{1,2})$/, '$1-$2')
-      .slice(0, 14);
-  };
+  const [inputValue, setInputValue] = useState("");
 
-  const [displayValue, setDisplayValue] = useState(formatCpf(value));
-
+  // Atualiza inputValue se o value externo mudar
   useEffect(() => {
-    setDisplayValue(formatCpf(value));
+    // Formata o value recebido (só números) para a máscara
+    let val = value.replace(/\D/g, "").slice(0, 11);
+    val = val
+      .replace(/^(\d{3})(\d)/, "$1.$2")
+      .replace(/^(\d{3})\.(\d{3})(\d)/, "$1.$2.$3")
+      .replace(/\.(\d{3})(\d)/, ".$1-$2");
+    setInputValue(val);
   }, [value]);
 
   const handleChange = (e) => {
-    const rawValue = e.target.value.replace(/\D/g, '');
-    const formattedValue = formatCpf(e.target.value);
-    
-    setDisplayValue(formattedValue);
-    
-    // Envia o valor sem formatação (apenas números)
+    let val = e.target.value.replace(/\D/g, "");
+    if (val.length > 11) val = val.slice(0, 11);
+    val = val
+      .replace(/^(\d{3})(\d)/, "$1.$2")
+      .replace(/^(\d{3})\.(\d{3})(\d)/, "$1.$2.$3")
+      .replace(/\.(\d{3})(\d)/, ".$1-$2");
+
+    setInputValue(val);
+
+    // Cria um evento modificado para enviar o valor formatado e o nome
     onChange({
-      ...e,
       target: {
-        ...e.target,
-        value: rawValue // Envia apenas os números
-      }
+        name,
+        value: val,
+      },
     });
   };
 
   return (
     <div className={`mb-3 ${className}`}>
-      {label && <label htmlFor={id} className="form-label">{label}</label>}
+      {label && (
+        <label htmlFor={id} className="form-label">
+          {label}
+        </label>
+      )}
       <input
         type="text"
         className="form-control"
@@ -53,11 +58,10 @@ function InputCpf({
         name={name}
         placeholder={placeholder}
         required={required}
-        value={displayValue}
+        value={inputValue}
         onChange={handleChange}
         disabled={disabled}
         maxLength={14}
-        inputMode="numeric"
         {...props}
       />
     </div>

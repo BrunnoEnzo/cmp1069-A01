@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./css/bootstrap.min.css">
+        <link rel="stylesheet" href="./css/style.css">
+
+        <title>Cinema</title>
+    </head>
+
+    <body class="bg-dark text-light">
+        <div id="navbar"></div>
+        <div class="container mt-5">
+            <h1 class="custom-text-center">Cadastro de Filmes</h1>
+            <button type="button" class="btn btn-primary custom-btn" data-bs-toggle="modal" data-bs-target="#modalAdicionarFilme">
+                Adicionar Filme
+            </button>
+            <div class="modal fade" id="modalAdicionarFilme" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                aria-labelledby="modalAdicionarFilmeLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="modalAdicionarFilmeLabel">Salvar Filme</h1>
+                            <button type="button" class="btn-close custom-btn" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="inputTitulo" class="form-label">Título</label>
+                                <input type="text" class="form-control" id="inputTitulo" placeholder="Digite o título do filme"
+                                    required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="inputDescricao" class="form-label">Descrição</label>
+                                <input type="text" class="form-control" id="inputDescricao"
+                                    placeholder="Digite a descrição do filme" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="inputGenero" class="form-label">Gênero</label>
+                                <select class="form-select" id="select-genero" aria-label="Selecione o formato">
+                                    <option selected>Selecione o formato</option>
+                                    <option value="1">ação</option>
+                                    <option value="2">suspense</option>
+                                    <option value="3">comédia</option>
+                                    <option value="4">aventura</option>
+                                    <option value="5">romance</option>
+                                    <option value="6">terror</option>
+                                    <option value="7">ficção</option>
+                                    <option value="8">animação</option>
+                                    <option value="10">fantasia</option>
+                                    <option value="12">drama</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="inputClassificacao" class="form-label">Classificação</label>
+                                <select class="form-select" id="select-classificacao" aria-label="Selecione o formato">
+                                    <option selected>Selecione o formato</option>
+                                    <option value="13">Livre</option>
+                                    <option value="14">+10</option>
+                                    <option value="15">+12</option>
+                                    <option value="16">+14</option>
+                                    <option value="17">+16</option>
+                                    <option value="18">+18</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="inputDuracao" class="form-label">Duração</label>
+                                <input type="text" class="form-control" id="inputDuracao" placeholder="Digite a duração do filme"
+                                    required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="inputDataEstreia" class="form-label">Data de Estreia</label>
+                                <input type="date" class="form-control" id="inputDataEstreia"
+                                    placeholder="Digite a data de estreia do filme" required>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary custom-btn" data-bs-dismiss="modal">Fechar</button>
+                                <button type="button" class="btn btn-primary custom-btn">Salvar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br></br>
+            <div class="row">
+                <div class="col">
+                    <input type="text" class="form-control" id="inputPesquisaTitulo" placeholder="Digite o título do filme"
+                        aria-label="tituloPesquisa">
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-light customMenor-btn" id="btnBuscarFilme">Buscar</button>
+                </div>
+            </div>
+            <br></br>
+            <div class="table-responsive">
+                <table class="table table-hover table align-middle">
+                    <thead>
+                        <tr class="custom-table-dark">
+                            <th scope="col">ID</th>
+                            <th scope="col">Título</th>
+                            <th scope="col">Descrição</th>
+                            <th scope="col">Gênero</th>
+                            <th scope="col">Classificação</th>
+                            <th scope="col">Duração</th>
+                            <th scope="col">Data de Estreia</th>
+                            <th scope="col">Editar / Excluir</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaFilmes"></tbody>
+                        <tr class="table-dark">
+                            <td class="align-top"></td>
+                            <td class="align-top"></td>
+                            <td class="align-top"></td>
+                            <td class="align-top"></td>
+                            <td class="align-top"></td>
+                            <td class="align-top"></td>
+                            <td class="align-top"></td>
+                            <td class="align-top"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Modal: Excluir Filme -->
+        <div class="modal fade" id="modalExcluirFilme" tabindex="-1" aria-labelledby="modalExcluirFilmeLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h4 class="modal-title" id="modalExcluirFilmeLabel">Confirmação de Exclusão</h4>
+                        <button type="button" class="btn-close btn-close-white custom-btn" data-bs-dismiss="modal"
+                            aria-label="Fechar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Tem certeza de que deseja excluir o filme <strong id="filmeExcluirNome"></strong>?</p>
+                        <p>Se remover o filme, sessões e ingressos serão apagados!</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary custom-btn" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger custom-btn" id="btnConfirmarExcluirFilme">Excluir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="./js/bootstrap.bundle.min.js"></script>
+        <script src="./controller/script.js"></script>
+        <script type="module" src="./controller/filmeController.js"></script>
+    </body>
+
+</html>

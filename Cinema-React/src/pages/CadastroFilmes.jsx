@@ -57,6 +57,7 @@ function FilmePage() {
     useEffect(() => {
         const salvarFilmes = () => {
             try {
+                console.log('Salvando filmes no localStorage:', filmes);
                 localStorage.setItem('filmes', JSON.stringify(filmes));
             } catch (error) {
                 console.error('Erro ao salvar filmes no localStorage:', error);

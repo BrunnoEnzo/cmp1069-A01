@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula03</title>
+</head>
+<body>
+    <h2>Formulario Pessoa</h2>
+    <p> <a href="../index.html"> Home</a></p>
+    <hr>
+    <form action="" method="post">
+        <label for="nome">Nome:</label>
+        <input type="text" name="nome" id="nome" required>
+        <br>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required>
+        <br>
+        <label for="idade">Idade:</label>
+        <input type="number" name="idade" id="idade" required>
+        <br>
+        <label for="sexo">Sexo:</label>
+        <input type="radio" name="sexo" id="sexo" value="M" required> Masculino
+        <input type="radio" name="sexo" id="sexo" value="F" required> Feminino
+        <br>
+        <label for="cidade">Cidade:</label>
+        <select name="cidade" id="cidade" required>
+            <option value="1">São Paulo</option>
+            <option value="2">Rio de Janeiro</option>
+            <option value="3">Belo Horizonte</option>
+            <option value="4">Curitiba</option>
+            <option value="5">Porto Alegre</option>
+        </select>
+        <br>
+        <br>
+        <label for="interesses">Interesses:</label>
+        <input type="checkbox" name="interesses[]" id="interesses" value="esporte"> Esporte
+        <input type="checkbox" name="interesses[]" id="interesses" value="musica"> Música
+        <input type="checkbox" name="interesses[]" id="interesses" value="cinema"> Cinema
+        <input type="checkbox" name="interesses[]" id="interesses" value="tecnologia"> Tecnologia
+        <br>
+        <br>
+        <label for="mensagem">Observação pessoal:</label>
+        <br>
+        <textarea name="mensagem" id="mensagem" cols="50" rows="10" required></textarea>
+        <br>
+        <br>
+        <input id="btnSalvar" type="submit" value="Salvar">
+        <hr>
+        <table border=".1" cellpadding="3" cellspacing="0">
+            <thead>
+                <tr>
+                    <th bgcolor="gray" width="130">ID</th>
+                    <th bgcolor="gray" width="130">Nome</th>
+                    <th bgcolor="gray" width="130">Email</th>
+                    <th bgcolor="gray" width="130">Idade</th>
+                    <th bgcolor="gray" width="130">Sexo</th>
+                    <th bgcolor="gray" width="130">Cidade</th>
+                    <th bgcolor="gray" width="130">Editar/Excluir</th>
+                </tr>
+            </thead>
+            <tbody id="tabela">
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <script src="./lab03.js"></script>
+</body>
+</html>
