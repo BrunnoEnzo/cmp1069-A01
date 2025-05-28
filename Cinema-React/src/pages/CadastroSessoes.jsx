@@ -9,6 +9,8 @@ import InputDateTime from '../components/Input/InputDateTime';
 import Navbar from "../components/navbar/navbar";
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap/dist/js/bootstrap.bundle.min"
+import SessaoForm from '../features/sessoes/components/SessaoForm';
+import SessaoTable from '../features/sessoes/components/SessaoTable';
 
 function SessaoPage() {
     const [sessoes, setSessoes] = useState(() => {
@@ -217,189 +219,90 @@ function SessaoPage() {
 
     return (
         <div className="bg-dark text-light table-responsive" style={{ minHeight: "100vh", width: '100vw', boxSizing: "border-box" }}>
-            <Navbar />
-            <div className="container mt-4">
-                <h1 className="text-center mb-4">Cadastro de Sessões</h1>
+        <Navbar />
+        <div className="container mt-4">
+        <h1 className="text-center mb-4 custom-text-center">Cadastro de Sessões</h1>
 
-                <div className="d-flex justify-content-between mb-4">
-                    <button
-                        className="btn btn-primary"
-                        onClick={abrirModalAdicionar}
-                    >
-                        Adicionar Sessão
-                    </button>
+        <div className="d-flex justify-content-between mb-4">
+            <Button
+            cor="primary"
+            onClick={abrirModalAdicionar}
+            ariaLabel="Adicionar nova sessão"
+            >
+            Adicionar Sessão
+            </Button>
 
-                    <div className="d-flex">
-                        <SearchInput
-                            placeholder="Buscar sessões"
-                            value={termoBusca}
-                            onChange={(e) => setTermoBusca(e.target.value)}
-                        />
-                        {termoBusca && (
-                            <button
-                                className="btn btn-light ms-2"
-                                onClick={() => setTermoBusca('')}
-                            >
-                                Limpar
-                            </button>
-                        )}
-                    </div>
-                </div>
-
-                <div className="table-responsive">
-                    <table className="table table-dark table-hover align-middle mb-0">
-                        <thead>
-                            <tr>
-                                <th className="text-center align-middle">ID</th>
-                                <th className="text-center align-middle">Filme</th>
-                                <th className="text-center align-middle">Sala</th>
-                                <th className="text-center align-middle">Data</th>
-                                <th className="text-center align-middle">Hora</th>
-                                <th className="text-center align-middle">Preço</th>
-                                <th className="text-center align-middle">Idioma</th>
-                                <th className="text-center align-middle">Formato</th>
-                                <th className="text-center align-middle">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {sessoesFiltradas.map(sessao => (
-                                <tr key={sessao.id}>
-                                    <td className="text-center align-middle">{sessao.id}</td>
-                                    <td className="text-center align-middle">{sessao.filme}</td>
-                                    <td className="text-center align-middle">{sessao.sala}</td>
-                                    <td className="text-center align-middle">{formatarData(sessao.data)}</td>
-                                    <td className="text-center align-middle">{sessao.horario}</td>
-                                    <td className="text-center align-middle">R$ {sessao.preco.toFixed(2)}</td>
-                                    <td className="text-center align-middle">{sessao.idioma}</td>
-                                    <td className="text-center align-middle">{sessao.formato}</td>
-                                    <td className="text-center align-middle">
-                                        <div className="d-flex justify-content-center gap-2">
-                                            <button
-                                                className="btn btn-warning btn-sm"
-                                                onClick={() => abrirModalEdicao(sessao)}>
-                                                Editar
-                                            </button>
-                                            <button
-                                                className="btn btn-danger btn-sm"
-                                                onClick={() => prepararExclusao(sessao)}>
-                                                Excluir
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-
-                {/* Modal de Adição/Edição */}
-                <Modal
-                    show={showModal}
-                    onClose={() => setShowModal(false)}
-                    titulo={sessaoEditando ? 'Editar Sessão' : 'Adicionar Sessão'}
-                    footerContent={
-                        <>
-                            <button
-                                className="btn btn-secondary"
-                                onClick={() => setShowModal(false)}
-                            >
-                                Fechar
-                            </button>
-                            <button
-                                type="submit"
-                                className="btn btn-primary"
-                                form="formSessao"
-                            >
-                                Salvar
-                            </button>
-                        </>
-                    }
+            <div className="d-flex">
+            <SearchInput
+                placeholder="Buscar sessões"
+                value={termoBusca}
+                onChange={(e) => setTermoBusca(e.target.value)}
+            />
+            {termoBusca && (
+                <Button
+                cor="light"
+                classeAdicional="ms-2"
+                onClick={() => setTermoBusca('')}
                 >
-                    <form id="formSessao" onSubmit={handleSubmit}>
-                        <SelectInput
-                            name="filme"
-                            label="Filme"
-                            options={filmes.map(f => ({ value: f.id, label: f.titulo }))}
-                            required
-                            value={formData.filme}
-                            onChange={handleInputChange}
-                            defaultText="Selecione o filme"
-                        />
-                        <SelectInput
-                            name="sala"
-                            label="Sala"
-                            options={salas.map(s => ({ value: s.id, label: s.nomeSala }))}
-                            required
-                            value={formData.sala}
-                            onChange={handleInputChange}
-                            defaultText="Selecione a sala"
-                        />
-                        <InputDateTime
-                            name="dataHora"
-                            label="Data e Hora"
-                            required
-                            value={formData.dataHora}
-                            onChange={handleInputChange}
-                        />
-                        <InputText
-                            name="preco"
-                            label="Preço"
-                            type="number"
-                            required
-                            value={formData.preco}
-                            onChange={handleInputChange}
-                            min="0.01"
-                            step="0.01"
-                        />
-                        <SelectInput
-                            name="idioma"
-                            label="Idioma"
-                            options={idiomas}
-                            required
-                            value={formData.idioma}
-                            onChange={handleInputChange}
-                            defaultText="Selecione o idioma"
-                        />
-                        <SelectInput
-                            name="formato"
-                            label="Formato"
-                            options={formatos}
-                            required
-                            value={formData.formato}
-                            onChange={handleInputChange}
-                            defaultText="Selecione o formato"
-                        />
-                    </form>
-                </Modal>
-
-                {/* Modal de Confirmação de Exclusão */}
-                <Modal
-                    show={showDeleteModal}
-                    onClose={() => setShowDeleteModal(false)}
-                    titulo="Confirmar Exclusão"
-                    footerContent={
-                        <>
-                            <button
-                                className="btn btn-secondary"
-                                onClick={() => setShowDeleteModal(false)}
-                            >
-                                Cancelar
-                            </button>
-                            <button
-                                className="btn btn-danger"
-                                onClick={confirmarExclusao}
-                            >
-                                Excluir
-                            </button>
-                        </>
-                    }
-                >
-                    <p>Tem certeza que deseja excluir a sessão <strong>{sessaoParaExcluir?.filme} - {sessaoParaExcluir?.sala}</strong>?</p>
-                    <p className="text-warning">Atenção: Todos os ingressos vendidos para esta sessão serão removidos!</p>
-                </Modal>
+                Limpar
+                </Button>
+            )}
             </div>
         </div>
+
+        <SessaoTable
+            sessoesFiltradas={sessoesFiltradas}
+            abrirModalEdicao={abrirModalEdicao}
+            prepararExclusao={prepararExclusao}
+            formatarData={formatarData}
+        />
+
+        {/* Modal de Adição/Edição */}
+        <Modal
+            show={showModal}
+            onClose={() => setShowModal(false)}
+            titulo={sessaoEditando ? 'Editar Sessão' : 'Adicionar Sessão'}
+        >
+            <SessaoForm
+            formData={formData}
+            filmes={filmes}
+            salas={salas}
+            idiomas={idiomas}
+            formatos={formatos}
+            handleInputChange={handleInputChange}
+            handleSubmit={handleSubmit}
+            isEditing={!!sessaoEditando}
+            />
+        </Modal>
+
+        {/* Modal de Confirmação de Exclusão */}
+        <Modal
+            show={showDeleteModal}
+            onClose={() => setShowDeleteModal(false)}
+            titulo="Confirmar Exclusão"
+            footerContent={
+            <>
+                <Button
+                cor="secondary"
+                onClick={() => setShowDeleteModal(false)}
+                >
+                Cancelar
+                </Button>
+                <Button
+                cor="danger"
+                onClick={confirmarExclusao}
+                >
+                Excluir
+                </Button>
+            </>
+            }
+        >
+            <p>Tem certeza que deseja excluir a sessão <strong>{sessaoParaExcluir?.filme} - {sessaoParaExcluir?.sala}</strong>?</p>
+            <p className="text-warning">Atenção: Todos os ingressos vendidos para esta sessão serão removidos!</p>
+        </Modal>
+        </div>
+    </div>
     );
 }
-
+    
 export default SessaoPage;

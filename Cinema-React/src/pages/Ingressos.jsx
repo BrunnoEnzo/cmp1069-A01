@@ -9,6 +9,8 @@ import InputCpf from '../components/Input/InputCpf';
 import Navbar from "../components/navbar/navbar";
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap/dist/js/bootstrap.bundle.min"
+import VendaTable from '../features/ingressos/components/VendaTable';
+import VendaForm from '../features/ingressos/components/VendaForm';
 
 function IngressoPage() {
     const [vendas, setVendas] = useState(() => {
@@ -196,177 +198,87 @@ function IngressoPage() {
 
     return (
         <div className="bg-dark text-light table-responsive" style={{ minHeight: "100vh", width: '100vw', boxSizing: "border-box" }}>
-            <Navbar />
-            <div className="container mt-4">
-                <h1 className="text-center mb-4">Venda de Ingressos</h1>
-
-                <div className="d-flex justify-content-between mb-4">
-                    <button
-                        className="btn btn-primary"
-                        onClick={abrirModalAdicionar}
-                    >
-                        Adicionar Venda
-                    </button>
-
-                    <div className="d-flex">
-                        <SearchInput
-                            placeholder="Buscar ingressos"
-                            value={termoBusca}
-                            onChange={(e) => setTermoBusca(e.target.value)}
-                        />
-                        {termoBusca && (
-                            <button
-                                className="btn btn-light ms-2"
-                                onClick={() => setTermoBusca('')}
-                            >
-                                Limpar
-                            </button>
-                        )}
-                    </div>
-                </div>
-
-                <div className="table-responsive">
-                    <table className="table table-dark table-hover align-middle mb-0">
-                        <thead>
-                            <tr>
-                                <th className="text-center align-middle">ID</th>
-                                <th className="text-center align-middle">Sessão</th>
-                                <th className="text-center align-middle">Nome do Cliente</th>
-                                <th className="text-center align-middle">CPF</th>
-                                <th className="text-center align-middle">Assento</th>
-                                <th className="text-center align-middle">Pagamento</th>
-                                <th className="text-center align-middle">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {vendasFiltradas.map(venda => (
-                                <tr key={venda.id}>
-                                    <td className="text-center align-middle">{venda.id}</td>
-                                    <td className="text-center align-middle">{venda.sessao}</td>
-                                    <td className="text-center align-middle">{venda.nomeCliente}</td>
-                                    <td className="text-center align-middle">{formatarCPF(venda.cpf)}</td>
-                                    <td className="text-center align-middle">{venda.assento}</td>
-                                    <td className="text-center align-middle">{venda.tipoPagamento}</td>
-                                    <td className="text-center align-middle">
-                                        <div className="d-flex justify-content-center gap-2">
-                                            <button
-                                                className="btn btn-warning btn-sm"
-                                                onClick={() => abrirModalEdicao(venda)}>
-                                                Editar
-                                            </button>
-                                            <button
-                                                className="btn btn-danger btn-sm"
-                                                onClick={() => prepararExclusao(venda)}>
-                                                Excluir
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-
-                {/* Modal de Adição/Edição */}
-                <Modal
-                    show={showModal}
-                    onClose={() => setShowModal(false)}
-                    titulo={vendaEditando ? 'Editar Venda' : 'Nova Venda'}
-                    footerContent={
-                        <>
-                            <button
-                                className="btn btn-secondary"
-                                onClick={() => setShowModal(false)}
-                            >
-                                Fechar
-                            </button>
-                            <button
-                                type="submit"
-                                className="btn btn-primary"
-                                form="formVenda"
-                            >
-                                Salvar
-                            </button>
-                        </>
-                    }
-                >
-                    <form id="formVenda" onSubmit={handleSubmit}>
-                        <SelectInput
-                            name="sessao"
-                            label="Sessão"
-                            options={sessoes.map(s => ({
-                                value: s.id,
-                                label: `${s.filme} - ${s.sala}`
-                            }))}
-                            required
-                            value={formData.sessao}
-                            onChange={handleInputChange}
-                            defaultText="Selecione a sessão"
-                        />
-                        <InputText
-                            name="nomeCliente"
-                            label="Nome do Cliente"
-                            required
-                            value={formData.nomeCliente}
-                            onChange={handleInputChange}
-                            placeholder="Digite o nome do cliente"
-                        />
-                        <InputCpf
-                            name="cpf"
-                            label="CPF do Cliente"
-                            required
-                            value={formData.cpf}
-                            onChange={handleInputChange}
-                            placeholder="Digite o CPF"
-                        />
-
-                        <InputText
-                            name="assento"
-                            label="Assento"
-                            required
-                            value={formData.assento}
-                            onChange={handleInputChange}
-                            placeholder="Digite o número do assento"
-                        />
-                        <SelectInput
-                            name="tipoPagamento"
-                            label="Tipo de Pagamento"
-                            options={tiposPagamento}
-                            required
-                            value={formData.tipoPagamento}
-                            onChange={handleInputChange}
-                            defaultText="Selecione o tipo de pagamento"
-                        />
-                    </form>
-                </Modal>
-
-                {/* Modal de Confirmação de Exclusão */}
-                <Modal
-                    show={showDeleteModal}
-                    onClose={() => setShowDeleteModal(false)}
-                    titulo="Confirmar Exclusão"
-                    footerContent={
-                        <>
-                            <button
-                                className="btn btn-secondary"
-                                onClick={() => setShowDeleteModal(false)}
-                            >
-                                Cancelar
-                            </button>
-                            <button
-                                className="btn btn-danger"
-                                onClick={confirmarExclusao}
-                            >
-                                Excluir
-                            </button>
-                        </>
-                    }
-                >
-                    <p>Tem certeza que deseja excluir o ingresso de <strong>{vendaParaExcluir?.nomeCliente}</strong> para a sessão <strong>{vendaParaExcluir?.sessao}</strong>?</p>
-                </Modal>
+          <Navbar />
+          <div className="container mt-4">
+            <h1 className="text-center mb-4 custom-text-center">Venda de Ingressos</h1>
+    
+            <div className="d-flex justify-content-between mb-4">
+              <Button
+                cor="primary"
+                onClick={abrirModalAdicionar}
+                ariaLabel="Adicionar nova venda"
+              >
+                Adicionar Venda
+              </Button>
+    
+              <div className="d-flex">
+                <SearchInput
+                  placeholder="Buscar ingressos"
+                  value={termoBusca}
+                  onChange={(e) => setTermoBusca(e.target.value)}
+                />
+                {termoBusca && (
+                  <Button
+                    cor="light"
+                    classeAdicional="ms-2"
+                    onClick={() => setTermoBusca('')}
+                  >
+                    Limpar
+                  </Button>
+                )}
+              </div>
             </div>
+    
+            <VendaTable
+              vendasFiltradas={vendasFiltradas}
+              abrirModalEdicao={abrirModalEdicao}
+              prepararExclusao={prepararExclusao}
+              formatarCPF={formatarCPF}
+            />
+    
+            {/* Modal de Adição/Edição */}
+            <Modal
+              show={showModal}
+              onClose={() => setShowModal(false)}
+              titulo={vendaEditando ? 'Editar Venda' : 'Nova Venda'}
+            >
+              <VendaForm
+                formData={formData}
+                sessoes={sessoes}
+                tiposPagamento={tiposPagamento}
+                handleInputChange={handleInputChange}
+                handleSubmit={handleSubmit}
+                isEditing={!!vendaEditando}
+              />
+            </Modal>
+    
+            {/* Modal de Confirmação de Exclusão */}
+            <Modal
+              show={showDeleteModal}
+              onClose={() => setShowDeleteModal(false)}
+              titulo="Confirmar Exclusão"
+              footerContent={
+                <>
+                  <Button
+                    cor="secondary"
+                    onClick={() => setShowDeleteModal(false)}
+                  >
+                    Cancelar
+                  </Button>
+                  <Button
+                    cor="danger"
+                    onClick={confirmarExclusao}
+                  >
+                    Excluir
+                  </Button>
+                </>
+              }
+            >
+              <p>Tem certeza que deseja excluir o ingresso de <strong>{vendaParaExcluir?.nomeCliente}</strong> para a sessão <strong>{vendaParaExcluir?.sessao}</strong>?</p>
+            </Modal>
+          </div>
         </div>
-    );
+      );
 }
-
+    
 export default IngressoPage;

@@ -8,6 +8,8 @@ import SearchInput from '../components/Input/SearchInput';
 import Navbar from "../components/navbar/navbar";
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap/dist/js/bootstrap.bundle.min"
+import FilmeForm from '../features/filmes/components/FilmeForm';
+import FilmeTable from '../features/filmes/components/FilmeTable';
 
 
 function FilmePage() {
@@ -149,176 +151,96 @@ function FilmePage() {
         <div className="bg-dark text-light table-responsive" style={{ minHeight: "100vh", width: '100vw', boxSizing: "border-box" }}>
             <Navbar />
             <div className="container mt-4">
-                <h1 className="text-center mb-4">Cadastro de Filmes</h1>
-
-                <div className="d-flex justify-content-between mb-4">
-                    <button
-                        className="btn btn-primary"
-                        onClick={abrirModalAdicionar}
+            <h1 className="text-center mb-4 custom-text-center">Cadastro de Filmes</h1>
+        
+            <div className="d-flex justify-content-between mb-4">
+                <Button
+                cor="primary"
+                onClick={abrirModalAdicionar}
+                >
+                Adicionar Filme
+                </Button>
+        
+                <div className="d-flex">
+                <SearchInput
+                    placeholder="Buscar filmes"
+                    value={termoBusca}
+                    onChange={(e) => setTermoBusca(e.target.value)}
+                />
+                {termoBusca && (
+                    <Button
+                    cor="light"
+                    classeAdicional="ms-2"
+                    onClick={() => setTermoBusca('')}
                     >
-                        Adicionar Filme
-                    </button>
-
-                    <div className="d-flex">
-                        <SearchInput
-                            placeholder="Buscar filmes"
-                            value={termoBusca}
-                            onChange={(e) => setTermoBusca(e.target.value)}
-                        />
-                        {termoBusca && (
-                            <button
-                                className="btn btn-light ms-2"
-                                onClick={() => setTermoBusca('')}
-                            >
-                                Limpar
-                            </button>
-                        )}
-                    </div>
+                    Limpar
+                    </Button>
+                )}
                 </div>
-
-                <div className="table-responsive"> {/* Mantém o scroll horizontal em mobile */}
-                    <table className="table table-dark table-hover align-middle mb-0"> {/* Remove bordas extras */}
-                        <thead>
-                            <tr>
-                                <th className="text-center align-middle">ID</th>
-                                <th className="text-center align-middle">Título</th>
-                                <th className="text-center align-middle">Descrição</th>
-                                <th className="text-center align-middle">Gênero</th>
-                                <th className="text-center align-middle">Classificação</th>
-                                <th className="text-center align-middle">Duração</th>
-                                <th className="text-center align-middle">Data Estreia</th>
-                                <th className="text-center align-middle">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filmesFiltrados.map(filme => (
-                                <tr key={filme.id}>
-                                    <td className="text-center align-middle">{filme.id}</td>
-                                    <td className="text-center align-middle">{filme.titulo}</td>
-                                    <td className="text-center align-middle">{filme.descricao}</td>
-                                    <td className="text-center align-middle">{filme.genero}</td>
-                                    <td className="text-center align-middle">{filme.classificacao}</td>
-                                    <td className="text-center align-middle">{filme.duracao} min</td>
-                                    <td className="text-center align-middle">
-                                        {new Date(filme.dataEstreia).toLocaleDateString('pt-BR')}
-                                    </td>
-                                    <td className="text-center align-middle">
-                                        <div className="d-flex justify-content-center gap-2">
-                                            <button
-                                                className="btn btn-warning btn-sm"
-                                                onClick={() => abrirModalEdicao(filme)}>
-                                                Editar
-                                            </button>
-                                            <button
-                                                className="btn btn-danger btn-sm"
-                                                onClick={() => prepararExclusao(filme)}>
-                                                Excluir
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-
-                {/* Modal de Adição/Edição */}
-                <Modal
-                    show={showModal}
-                    onClose={() => setShowModal(false)}
-                    titulo={filmeEditando ? 'Editar Filme' : 'Adicionar Filme'}
-                    footerContent={
-                        <>
-                            <button
-                                className="btn btn-secondary"
-                                onClick={() => setShowModal(false)}
-                            >
-                                Fechar
-                            </button>
-                            <button
-                                type="submit"
-                                className="btn btn-primary"
-                                form="formFilme"
-                            >
-                                Salvar
-                            </button>
-                        </>
-                    }
-                >
-                    <form id="formFilme" onSubmit={handleSubmit}>
-                        <InputText
-                            name="titulo"
-                            label="Título"
-                            required
-                            value={formData.titulo}
-                            onChange={handleInputChange}
-                        />
-                        <InputText
-                            name="descricao"
-                            label="Descrição"
-                            required
-                            value={formData.descricao}
-                            onChange={handleInputChange}
-                        />
-                        <SelectInput
-                            name="genero"
-                            label="Gênero"
-                            options={generos}
-                            required
-                            value={formData.genero}
-                            onChange={handleInputChange}
-                        />
-                        <SelectInput
-                            name="classificacao"
-                            label="Classificação"
-                            options={classificacoes}
-                            required
-                            value={formData.classificacao}
-                            onChange={handleInputChange}
-                        />
-                        <InputText
-                            name="duracao"
-                            label="Duração (minutos)"
-                            type="number"
-                            required
-                            value={formData.duracao}
-                            onChange={handleInputChange}
-                        />
-                        <InputText
-                            name="dataEstreia"
-                            label="Data de Estreia"
-                            type="date"
-                            required
-                            value={formData.dataEstreia}
-                            onChange={handleInputChange}
-                        />
-                    </form>
-                </Modal>
-
-                {/* Modal de Confirmação de Exclusão */}
-                <Modal
-                    show={showDeleteModal}
-                    onClose={() => setShowDeleteModal(false)}
-                    titulo="Confirmar Exclusão"
-                    footerContent={
-                        <>
-                            <button
-                                className="btn btn-secondary"
-                                onClick={() => setShowDeleteModal(false)}
-                            >
-                                Cancelar
-                            </button>
-                            <button
-                                className="btn btn-danger"
-                                onClick={confirmarExclusao}
-                            >
-                                Excluir
-                            </button>
-                        </>
-                    }
-                >
-                    <p>Tem certeza que deseja excluir o filme <strong>{filmeParaExcluir?.titulo}</strong>?</p>
-                </Modal>
+            </div>
+        
+            <FilmeTable
+                filmesFiltrados={filmesFiltrados}
+                abrirModalEdicao={abrirModalEdicao}
+                prepararExclusao={prepararExclusao}
+            />
+        
+            {/* Modal de Adição/Edição */}
+            <Modal
+                show={showModal}
+                onClose={() => setShowModal(false)}
+                titulo={filmeEditando ? 'Editar Filme' : 'Adicionar Filme'}
+                footerContent={
+                <>
+                    <Button
+                    cor="secondary"
+                    onClick={() => setShowModal(false)}
+                    >
+                    Fechar
+                    </Button>
+                    <Button
+                    tipo="submit"
+                    cor="primary"
+                    form="formFilme"
+                    >
+                    Salvar
+                    </Button>
+                </>
+                }
+            >
+                <FilmeForm
+                formData={formData}
+                generos={generos}
+                classificacoes={classificacoes}
+                handleInputChange={handleInputChange}
+                handleSubmit={handleSubmit}
+                />
+            </Modal>
+        
+            {/* Modal de Confirmação de Exclusão */}
+            <Modal
+                show={showDeleteModal}
+                onClose={() => setShowDeleteModal(false)}
+                titulo="Confirmar Exclusão"
+                footerContent={
+                <>
+                    <Button
+                    cor="secondary"
+                    onClick={() => setShowDeleteModal(false)}
+                    >
+                    Cancelar
+                    </Button>
+                    <Button
+                    cor="danger"
+                    onClick={confirmarExclusao}
+                    >
+                    Excluir
+                    </Button>
+                </>
+                }
+            >
+                <p>Tem certeza que deseja excluir o filme <strong>{filmeParaExcluir?.titulo}</strong>?</p>
+            </Modal>
             </div>
         </div>
     );

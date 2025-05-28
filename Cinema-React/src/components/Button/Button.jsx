@@ -1,3 +1,6 @@
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import "../../styles/global.css";
 function Button({
     children = "Botão",
     tipo = "button",
@@ -12,7 +15,7 @@ function Button({
     return (
       <button
         type={tipo}
-        className={`btn btn-${cor} ${tamanho} ${classeAdicional}`}
+        className={`btn btn-${cor} ${tamanho} ${classeAdicional} `}
         disabled={disabled}
         onClick={onClick}
         aria-label={ariaLabel || (typeof children === 'string' ? children : undefined)}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/navbar/navbar";
 import Card from "../components/Card/Card";
+import "../styles/global.css"
 
 function Home() {
     const [totalFilmes, setTotalFilmes] = useState(0);
@@ -65,7 +66,7 @@ function Home() {
             {/* container-fluid para usar toda a largura */}
             <div className="row justify-content-center">
             <div className="col-12 text-center mb-4">
-                <h1>Bem-vindo ao Sistema de Gerenciamento de Cinema</h1>
+                <h1 className="custom-text-center">Bem-vindo ao Sistema de Gerenciamento de Cinema</h1>
                 <p className="lead">
                 Gerencie filmes, salas, sessões e vendas de ingressos
                 </p>

@@ -8,6 +8,8 @@ import SearchInput from '../components/Input/SearchInput';
 import Navbar from "../components/navbar/navbar";
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap/dist/js/bootstrap.bundle.min"
+import SalaForm from '../features/salas/components/SalaForm';
+import SalaTable from '../features/salas/components/SalaTable';
 
 function SalaPage() {
     const [salas, setSalas] = useState(() => {
@@ -130,153 +132,86 @@ function SalaPage() {
 
     return (
         <div className="bg-dark text-light table-responsive" style={{ minHeight: "100vh", width: '100vw', boxSizing: "border-box" }}>
-            <Navbar />
-            <div className="container mt-4">
-                <h1 className="text-center mb-4">Cadastro de Salas</h1>
+        <Navbar />
+        <div className="container mt-4">
+        <h1 className="text-center mb-4 custom-text-center">Cadastro de Salas</h1>
 
-                <div className="d-flex justify-content-between mb-4">
-                    <button
-                        className="btn btn-primary"
-                        onClick={abrirModalAdicionar}
-                    >
-                        Adicionar Sala
-                    </button>
+        <div className="d-flex justify-content-between mb-4">
+            <Button
+            cor="primary"
+            onClick={abrirModalAdicionar}
+            ariaLabel="Adicionar nova sala"
+            >
+            Adicionar Sala
+            </Button>
 
-                    <div className="d-flex">
-                        <SearchInput
-                            placeholder="Buscar salas"
-                            value={termoBusca}
-                            onChange={(e) => setTermoBusca(e.target.value)}
-                        />
-                        {termoBusca && (
-                            <button
-                                className="btn btn-light ms-2"
-                                onClick={() => setTermoBusca('')}
-                            >
-                                Limpar
-                            </button>
-                        )}
-                    </div>
-                </div>
-
-                <div className="table-responsive">
-                    <table className="table table-dark table-hover align-middle mb-0">
-                        <thead>
-                            <tr>
-                                <th className="text-center align-middle">ID</th>
-                                <th className="text-center align-middle">Sala</th>
-                                <th className="text-center align-middle">Capacidade</th>
-                                <th className="text-center align-middle">Tipo</th>
-                                <th className="text-center align-middle">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {salasFiltradas.map(sala => (
-                                <tr key={sala.id}>
-                                    <td className="text-center align-middle">{sala.id}</td>
-                                    <td className="text-center align-middle">{sala.nomeSala}</td>
-                                    <td className="text-center align-middle">{sala.capacidade}</td>
-                                    <td className="text-center align-middle">{sala.tipo}</td>
-                                    <td className="text-center align-middle">
-                                        <div className="d-flex justify-content-center gap-2">
-                                            <button
-                                                className="btn btn-warning btn-sm"
-                                                onClick={() => abrirModalEdicao(sala)}>
-                                                Editar
-                                            </button>
-                                            <button
-                                                className="btn btn-danger btn-sm"
-                                                onClick={() => prepararExclusao(sala)}>
-                                                Excluir
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-
-                {/* Modal de Adição/Edição */}
-                <Modal
-                    show={showModal}
-                    onClose={() => setShowModal(false)}
-                    titulo={salaEditando ? 'Editar Sala' : 'Adicionar Sala'}
-                    footerContent={
-                        <>
-                            <button
-                                className="btn btn-secondary"
-                                onClick={() => setShowModal(false)}
-                            >
-                                Fechar
-                            </button>
-                            <button
-                                type="submit"
-                                className="btn btn-primary"
-                                form="formSala"
-                            >
-                                Salvar
-                            </button>
-                        </>
-                    }
+            <div className="d-flex">
+            <SearchInput
+                placeholder="Buscar salas"
+                value={termoBusca}
+                onChange={(e) => setTermoBusca(e.target.value)}
+            />
+            {termoBusca && (
+                <Button
+                cor="light"
+                classeAdicional="ms-2"
+                onClick={() => setTermoBusca('')}
                 >
-                    <form id="formSala" onSubmit={handleSubmit}>
-                        <InputText
-                            name="nomeSala"
-                            label="Nome/Número da Sala"
-                            required
-                            value={formData.nomeSala}
-                            onChange={handleInputChange}
-                        />
-                        <InputText
-                            name="capacidade"
-                            label="Capacidade"
-                            type="number"
-                            required
-                            value={formData.capacidade}
-                            onChange={handleInputChange}
-                            min="1"
-                        />
-                        <SelectInput
-                            name="tipo"
-                            label="Tipo de Sala"
-                            options={tiposSala}
-                            required
-                            value={formData.tipo}
-                            onChange={handleInputChange}
-                            defaultText="Selecione o tipo de sala"
-                        />
-                    </form>
-                </Modal>
-
-                {/* Modal de Confirmação de Exclusão */}
-                <Modal
-                    show={showDeleteModal}
-                    onClose={() => setShowDeleteModal(false)}
-                    titulo="Confirmar Exclusão"
-                    footerContent={
-                        <>
-                            <button
-                                className="btn btn-secondary"
-                                onClick={() => setShowDeleteModal(false)}
-                            >
-                                Cancelar
-                            </button>
-                            <button
-                                className="btn btn-danger"
-                                onClick={confirmarExclusao}
-                            >
-                                Excluir
-                            </button>
-                        </>
-                    }
-                >
-                    <p>Tem certeza que deseja excluir a sala <strong>{salaParaExcluir?.nomeSala}</strong>?</p>
-                    <p className="text-warning">Atenção: Todas as sessões relacionadas a esta sala também serão removidas!</p>
-                </Modal>
+                Limpar
+                </Button>
+            )}
             </div>
         </div>
+
+        <SalaTable
+            salasFiltradas={salasFiltradas}
+            abrirModalEdicao={abrirModalEdicao}
+            prepararExclusao={prepararExclusao}
+        />
+
+        {/* Modal de Adição/Edição */}
+        <Modal
+            show={showModal}
+            onClose={() => setShowModal(false)}
+            titulo={salaEditando ? 'Editar Sala' : 'Adicionar Sala'}
+        >
+            <SalaForm
+            formData={formData}
+            tiposSala={tiposSala}
+            handleInputChange={handleInputChange}
+            handleSubmit={handleSubmit}
+            isEditing={!!salaEditando}
+            />
+        </Modal>
+
+        {/* Modal de Confirmação de Exclusão */}
+        <Modal
+            show={showDeleteModal}
+            onClose={() => setShowDeleteModal(false)}
+            titulo="Confirmar Exclusão"
+            footerContent={
+            <>
+                <Button
+                cor="secondary"
+                onClick={() => setShowDeleteModal(false)}
+                >
+                Cancelar
+                </Button>
+                <Button
+                cor="danger"
+                onClick={confirmarExclusao}
+                >
+                Excluir
+                </Button>
+            </>
+            }
+        >
+            <p>Tem certeza que deseja excluir a sala <strong>{salaParaExcluir?.nomeSala}</strong>?</p>
+            <p className="text-warning">Atenção: Todas as sessões relacionadas a esta sala também serão removidas!</p>
+        </Modal>
+        </div>
+    </div>
     );
 }
-
+    
 export default SalaPage;

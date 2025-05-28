@@ -12,7 +12,7 @@ function SearchInput({
     <input
       type="search"
       className={`form-control ${className}`}
-      id={id}
+      id="inputPesquisaTitulo"
       name={name}
       placeholder={placeholder}
       value={value}

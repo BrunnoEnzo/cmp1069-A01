@@ -4,6 +4,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min"
 
 import {AppRoutes} from "./routes/AppRoutes.jsx";
 import Navbar from "./components/navbar/navbar.jsx";
+import "./styles/global.css"
 
 function App() {
   return (
