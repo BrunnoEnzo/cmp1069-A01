@@ -1,13 +1,15 @@
 import React from 'react';
 import InputText from '../../../components/Input/InputText';
 import SelectInput from '../../../components/Input/SelectInput';
+import Button from '../../../components/Button/Button';
 
 const FilmeForm = ({
   formData,
   generos,
   classificacoes,
   handleInputChange,
-  handleSubmit
+  handleSubmit,
+  isEditing = false
 }) => {
   return (
     <form id="formFilme" onSubmit={handleSubmit}>
@@ -57,6 +59,21 @@ const FilmeForm = ({
         value={formData.dataEstreia}
         onChange={handleInputChange}
       />
+      <div className="d-flex justify-content-end gap-2 mt-3">
+        <Button
+          tipo="button"
+          cor="secondary"
+          onClick={() => document.getElementById('formFilme').reset()}
+        >
+          Limpar
+        </Button>
+        <Button
+          tipo="submit"
+          cor="primary"
+        >
+          {isEditing ? 'Atualizar Filme' : 'Adicionar Filme'}
+        </Button>
+      </div>
     </form>
   );
 };

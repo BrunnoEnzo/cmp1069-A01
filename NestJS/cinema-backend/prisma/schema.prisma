@@ -1,0 +1,90 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Modelo de Filme
+model Filme {
+  id              Int       @id @default(autoincrement())
+  titulo          String    @unique
+  descricao       String
+  genero          String
+  classificacao   Int       // Ex: 10, 12, 14, 16, 18
+  duracao         Int       // Duração em minutos
+  dataEstreia     DateTime  @map("data_estreia") @db.Date // Formato apenas data
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  sessoes         Sessao[] // Adicione esta linha para a relação 1:N
+
+  @@map("filmes")
+}
+
+// Modelo de Sala
+model Sala {
+  id        Int      @id @default(autoincrement())
+  nomeSala  String   @unique @map("nome_sala") // Nome da sala (ex: Sala 1, IMAX)
+  capacidade Int      // Capacidade de pessoas
+  tipo      String   // Tipo da sala (ex: 2D, 3D, VIP, IMAX)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sessoes   Sessao[] // Adicione esta linha para a relação 1:N
+
+  @@map("salas")
+}
+
+// Novo modelo para Sessao
+model Sessao {
+  id          Int      @id @default(autoincrement())
+  dataHora    DateTime @map("data_hora") // Combina data e hora em um único campo DateTime
+  preco       Decimal  @db.Decimal(10, 2) // Preço com 2 casas decimais
+  idioma      String
+  formato     String   // Ex: 2D, 3D, IMAX, LEG, DUB
+
+  // Chaves estrangeiras para as relações
+  filmeId     Int      @map("filme_id")
+  salaId      Int      @map("sala_id")
+
+  // Relações com os modelos Filme e Sala
+  filme       Filme    @relation(fields: [filmeId], references: [id])
+  sala        Sala     @relation(fields: [salaId], references: [id])
+
+  vendas      Venda[]  // Relação 1:N com Venda
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("sessoes") // Mapeia para a tabela "sessoes" no banco de dados
+}
+
+// Novo modelo para Venda
+model Venda {
+  id            Int      @id @default(autoincrement())
+  nomeCliente   String   @map("nome_cliente")
+  cpf           String   @map("cpf")
+  assento       String
+  tipoPagamento String   @map("tipo_pagamento")
+
+  // Chave estrangeira para a relação com Sessao
+  sessaoId      Int      @map("sessao_id")
+
+  // Relação com o modelo Sessao
+  sessao        Sessao   @relation(fields: [sessaoId], references: [id])
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("vendas") // Mapeia para a tabela "vendas" no banco de dados
+}

@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Filme } from '../model/filme';
 import Button from '../components/Button/Button';
 import Modal from '../components/Modal/Modal';
-import InputText from '../components/Input/InputText';
-import SelectInput from '../components/Input/SelectInput';
 import SearchInput from '../components/Input/SearchInput';
 import Navbar from "../components/navbar/navbar";
 import "bootstrap/dist/css/bootstrap.min.css"
@@ -190,23 +188,6 @@ function FilmePage() {
                 show={showModal}
                 onClose={() => setShowModal(false)}
                 titulo={filmeEditando ? 'Editar Filme' : 'Adicionar Filme'}
-                footerContent={
-                <>
-                    <Button
-                    cor="secondary"
-                    onClick={() => setShowModal(false)}
-                    >
-                    Fechar
-                    </Button>
-                    <Button
-                    tipo="submit"
-                    cor="primary"
-                    form="formFilme"
-                    >
-                    Salvar
-                    </Button>
-                </>
-                }
             >
                 <FilmeForm
                 formData={formData}
